@@ -1,0 +1,20 @@
+var EmailTemplate= "\
+<div class=\"form-horizontal well\">\
+  <div class=\"form-group\">\
+    <label for=\"inputName\" class=\"col-sm-2 control-label\">{{label}} <br />\
+    </label>\
+    <div class=\"col-sm-9\">\
+      <input type=\"hidden\" name=\"title-{{.prefix}}{{.index}}\" value=\"{{label}}\" />\
+      <input type=\"email\" data-index=\"{{.index}}\" on-keyup=\"checkValid\" class=\"form-control\" name=\"{{ (inputName? inputName: \"campo-\"+.prefix+.index) }}\" placeholder=\"Correo Electrónico\">\
+    </div>\
+    {{#validField}}\
+        <div class=\"col-sm-1\"><span class=\"label label-success\"><i class=\"glyphicon glyphicon-ok\"></i></span></div>\
+    {{/validField}}\
+    {{^validField}}\
+        <div class=\"col-sm-1\"><span class=\"label label-danger\"><i class=\"glyphicon glyphicon-exclamation-sign\"></i></span></div>\
+    {{/validField}}\
+    \
+  </div>\
+</div> \
+ \
+";

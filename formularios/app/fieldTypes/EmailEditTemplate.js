@@ -1,0 +1,9 @@
+var EmailEditTemplate= "\
+<div intro=\"slide\" class=\"editar_informacion field-editor\">\
+  <h4>Editar campo de correo electrónico</h4>\
+\
+  <label>Título:</label> <input id=\"nuevoNombre\"  class=\"text\" value=\"{{label}}\"  placeholder=\"Título del campo\" /> \
+  <hr />\
+  <input class=\"button-primary\" type=\"button\" value=\"Guardar\" on-click=\"done\" />\
+</div>\
+";

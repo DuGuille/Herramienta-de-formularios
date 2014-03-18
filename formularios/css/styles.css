@@ -1,0 +1,41 @@
+.well {
+    padding: 10px 15px !important;
+}
+.message-title {
+  font-size: large;
+}
+.panel-default {
+  border-color: #ccc; 
+}
+.alert-info {
+  background-color: #EDF9FF;
+  border-color: #B6DCE4;
+  color: #31708f;
+}
+.panel-default > .panel-heading, .panel-default > .panel-footer {
+  background-color: #dedede;
+}
+.panel-default > .panel-body {
+  background-color: #f7f7f7;
+}
+.container-field > .panel-default > .panel-heading, .panel-default > .panel-footer {
+  background-color: #f7f7f7;
+}
+.container-field > .panel-default > .panel-body {
+  background-color: #fff;
+}
+
+
+.page-footer {
+  padding-top: 40px;
+  padding-bottom: 40px;
+  margin-top: 100px;
+  color: #777;
+  text-align: center;
+  border-top: 1px solid #e5e5e5;
+}
+
+.label-text {
+  font-size: 100%;
+}
+.tooltip { margin-top: 10px;} 

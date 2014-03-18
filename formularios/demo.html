@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Formulario</title>
+
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- App -->
+    <link href="css/styles.css" rel="stylesheet">
+
+  </head>  
+  <body>
+  <!--[if lt IE 8]>
+      <h1 class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</h1>
+  <![endif]-->
+
+    <div class="container">
+      <form class="" method="post" id="formelement">
+        <div id="formulario"></div>
+        
+        <div id="error" class="alert alert-danger hidden">Corrija los errores para poder enviar el formulario.</div>
+        
+        <div class="text-center">
+          <input id="enviarForm" type="submit" class="btn   btn-lg btn-primary" value="Enviar" />
+        </div>
+      </form>
+      
+      <div id="enviando" class="alert alert-success hidden">Enviando el formulario</div>
+      <div id="enviado" class="alert alert-success hidden">Gracias. Hemos recibido su formulario.</div>
+    </div>
+    
+    <div class="page-footer">
+      <div class="container">
+        <p class="text-muted">Demo.</p>
+      </div>
+    </div>
+    
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="js/jquery-1.11.0.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+    <script src='js/Ractive.js'></script>
+    <!-- App -->
+      <script src='app/FormTemplate.js' ></script>
+      <script src='app/FormFiller.js' ></script>
+      
+      <!-- Register the basic types -->
+      <!-- You can change the types in the app/fieldTypes/*.mustache files and compile to a multiline string for javascript with CompileTempates.sh script or modify the *Template.js files directly -->
+        <script src='app/fieldTypes/SimpleTextTemplate.js' ></script>
+        <script src='app/fieldTypes/SimpleText.js' ></script>
+        
+        <script src='app/fieldTypes/EmailTemplate.js' ></script>
+        <script src='app/fieldTypes/Email.js' ></script>
+        
+        <script src='app/fieldTypes/MessageTemplate.js' ></script>
+        <script src='app/fieldTypes/Message.js' ></script>
+        
+        <script src='app/fieldTypes/ContainerTemplate.js' ></script>
+        <script src='app/fieldTypes/Container.js' ></script>
+        
+        <script src='app/fieldTypes/NameTemplate.js' ></script>
+        <script src='app/fieldTypes/Name.js' ></script>
+      <!-- End registering types -->
+    <!-- End app sources -->
+    <script>
+  var forms = [
+     { 
+        id: "123",
+        title: "Título de prueba",
+        info: "Información adicional",
+        fields: [
+          {
+            type: "simpleText",
+            label: "Mensaje",
+            description: "Contenido del mensaje",
+            name:"mesaje",
+            min: "200",
+            max: "250"
+          },
+          {
+            type: "message",
+            content: "Recuerde que esta información no será guardada ni enviada hasta que complete el formulario y lo envíe.",
+            style: "normal",
+            title: ""
+          },
+          {
+            type: "message",
+            content: "Esto es un mensaje de alerta de peligro.",
+            style: "alert-danger",
+            title: "Peligro!"
+          },
+          {
+            type: "container",
+            description: "Los siguientes campos deben sumar 200 caracteres en total como mínimo.",
+            label: "Contenedor de campos varios",
+            min: "200",
+            max: "300",
+            fields: [
+              {
+                type: "simpleText",
+                label: "Concomitancias extrasensibles",
+                description: "Descripción",
+                name:"mesaje",
+                min: "20",
+                max: "50"
+              },
+              {
+                type: "simpleText",
+                label: "Alusiones",
+                description: "Palabras alusivas",
+                name:"mesaje",
+                min: "100",
+                max: "150"
+              },
+              {
+                type: "simpleText",
+                label: "Paradojas",
+                description: "Contenido paradójico",
+                name:"mesaje",
+                min: "100",
+                max: "150"
+              }
+            ]
+          },
+          {
+            type: "email",
+            label: "Email"
+          },
+          {
+            type: "name",
+            label: "Nombre"
+          }
+        ]
+      }];
+      
+      var estado = "llenando";
+      
+      if (estado == "enviado") {
+          $("#enviado").removeClass("hidden");
+          $("#formelement").addClass("hidden");
+      } else {
+                  
+        // get the form according to its ID.
+        var form = $.grep(forms, function(f) { return f.id == '123'; })[0];
+        if (!form) document.location="/";
+        
+        formulario = FormFiller.initialize('formulario', form );
+
+
+        $("#formelement").submit(function(e) {
+          var error = false;
+          $.each(
+          formulario.data.fields, function (i, c) {
+            if (!c.validField) error = true; 
+          });
+          if (error) {
+            alert("No puede enviar el formulario porque debe correjir los campos con error (ícono rojo)");
+            e.preventDefault();
+            $("#error").removeClass("hidden");
+          } else {            
+            $("#enviando").removeClass("hidden");
+          }
+            
+        });
+      }
+      
+      // avoid accidentally leaving the page
+      window.onbeforeunload = function(){
+        if ( !(!$("#enviando").hasClass("hidden") || !$("#enviado").hasClass("hidden")) )
+          return "Al salir de esta página o recargar perderás la información ingresada. Seguro que deseas salir ? ";
+      };
+      
+      
+      $(".tooltip-on-focus").tooltip({
+        trigger:'focus',
+        placement: 'right',
+        container: 'body'
+      });
+      
+    </script>
+  </body>
+</html>
