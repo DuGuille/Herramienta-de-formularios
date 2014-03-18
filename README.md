@@ -13,6 +13,6 @@ Los tipos de campos ya incluidos son:
 - Email
 - Container
 
-Este es el demo del editor:
+Este es el demo del editor: https://rawgithub.com/DuGuille/Herramienta-de-formularios/master/wordpress%20plugin/demo.html
 
-Este es el demo del llenador de los formularios: 
+Este es el demo del llenador de los formularios:  https://rawgithub.com/DuGuille/Herramienta-de-formularios/master/formularios/demo.html
