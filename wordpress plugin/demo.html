@@ -1,0 +1,270 @@
+<html>
+  <head>
+    <title></title>
+    <meta charset="utf-8">
+    
+    <style>
+body { font-family:sans-serif;}
+
+.container-field-controls {
+  float:left;
+  width: 100px;
+}
+.field-editor {
+  margin-left:150px !important; 
+}
+.textarea {
+  width: 100%;
+  height: 5em;
+}
+.hidden { display:none;}
+.campo td, .formulario{
+  padding: 15px;
+  margin-left:10px;
+  border-bottom: 1px solid #aae;
+  background-color: #eee;
+}
+.editar_formulario, .editar_informacion h4 {
+  margin-top:0px;
+}
+.editar_informacion {
+  margin:1em;
+  background: #f0f0f0;
+  color: #227;
+  border:1px solid #aaaaff;
+  padding:10px;
+  display:table;
+}
+.editar_informacion label {
+  display:inline-block;
+  width:100px;
+}
+.editar_informacion input.text {
+  width:280px;
+}
+.editar_formulario {
+  margin:2em;
+  padding: 1em;
+  background: #eaeaff;
+  color: #444;
+  border:1px solid #aaaaff;
+  display:table;
+}
+    </style>
+  </head>
+  <body>
+
+    <div class="wrap">
+  <h2>Herramienta para formularios</h2>
+
+  <form id="herramienta_escritores_form" method="post">
+      <input type="hidden" name="herramienta_escritores_post" value="1" />
+      <table class="form-table">
+          
+          <tr valign="top">
+          <th scope="row">Formularios</th>
+            <td>
+                  <input id="jsondata" name="herramienta_escritores_formularios" type="hidden" /> 
+                  <div id="forms">
+                  </div>
+            </td><td>
+                  <div id="form">
+                  </div>
+                  <div id="field">
+                  </div>
+            </td>
+          </tr>
+      </table>
+      <hr />
+      <input type="submit" value="Guardar" />
+
+      <script id="manejarForms" type="ractive/text"> 
+        {{#.:i}}
+          <div class="formulario"> {{title}} - {{fields.length}} campos. <input  type="button" on-click="editarForm:{{i}}" value="Editar" /> <input type="button" on-click="borrarForm:{{i}}" value="Borrar" /> 
+          <br />
+          Link a este formulario: <a target="_blank" href="http://hostname.com/formularios/index.php?key={{id}}">http://hostname.com/formularios/index.php?key={{id}}</a>
+          </div>
+        {{/.}}
+        <div id="nuevoForm" class="editar_informacion">
+          <h4>Agregar un nuevo formulario</h4>
+          <label>Título:</label> <input  class="text"  id="nuevoTitulo" placeholder="Título" /> <br />
+          <label>Información:</label> <input  class="text"  id="nuevoInfo" placeholder="Información" /> <hr />
+          <input  class="button-primary" type="button" value="Crear" on-click="nuevoForm" />
+        </div>
+      </script>
+
+  <script src="../formularios/js/jquery-1.11.0.min.js"></script>
+  <script src="../formularios/js/Ractive.js"></script>
+  <script src='../formularios/js/Ractive-transitions-slide.js'></script>
+
+  <!-- App sources -->
+    <script src="../formularios/app/FormEditorTemplate.js"></script>
+    <script src="../formularios/app/FormEditor.js"></script>
+      <script src="../formularios/app/fieldTypes/SimpleTextEditTemplate.js"></script>
+      <script src="../formularios/app/fieldTypes/SimpleTextEditor.js"></script>
+      <script src="../formularios/app/fieldTypes/MessageEditTemplate.js"></script>
+      <script src="../formularios/app/fieldTypes/MessageEditor.js"></script>
+      <script src="../formularios/app/fieldTypes/ContainerEditTemplate.js"></script>
+      <script src="../formularios/app/fieldTypes/ContainerEditor.js"></script>
+      <script src='../formularios/app/fieldTypes/NameEditTemplate.js' ></script>
+      <script src='../formularios/app/fieldTypes/NameEditor.js' ></script>
+      <script src='../formularios/app/fieldTypes/EmailEditTemplate.js' ></script>
+      <script src='../formularios/app/fieldTypes/EmailEditor.js' ></script>
+        
+  <!-- End app sources -->
+
+  <script>
+  var forms = [
+     { 
+        id: "123",
+        title: "Título de prueba",
+        info: "Información adicional",
+        fields: [
+          {
+            type: "simpleText",
+            label: "Mensaje",
+            description: "Contenido del mensaje",
+            name:"mesaje",
+            min: "200",
+            max: "250"
+          },
+          {
+            type: "message",
+            content: "Recuerde que esta información no será guardada ni enviada hasta que complete el formulario y lo envíe.",
+            style: "normal",
+            title: ""
+          },
+          {
+            type: "message",
+            content: "Esto es un mensaje de alerta de peligro.",
+            style: "alert-danger",
+            title: "Peligro!"
+          },
+          {
+            type: "container",
+            description: "Los siguientes campos deben sumar 200 caracteres en total como mínimo.",
+            label: "Contenedor de campos varios",
+            min: "200",
+            max: "300",
+            fields: [
+              {
+                type: "simpleText",
+                label: "Concomitancias extrasensibles",
+                description: "Descripción",
+                name:"mesaje",
+                min: "20",
+                max: "50"
+              },
+              {
+                type: "simpleText",
+                label: "Alusiones",
+                description: "Palabras alusivas",
+                name:"mesaje",
+                min: "100",
+                max: "150"
+              },
+              {
+                type: "simpleText",
+                label: "Paradojas",
+                description: "Contenido paradójico",
+                name:"mesaje",
+                min: "100",
+                max: "150"
+              }
+            ]
+          }
+        ]
+      }];
+  
+  
+  // Generic unique random id generator
+  function s4() {
+    return Math.floor((1 + Math.random()) * 0x10000)
+             .toString(16)
+             .substring(1);
+  }
+  function genGUID() {
+    return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
+  }
+  
+  var formsGUI = new Ractive({
+    el: "forms",
+    template: "#manejarForms",
+    data:forms
+  });
+  formsGUI.on({
+    nuevoForm: function (e) {
+      var nuevo = {title: $("#nuevoTitulo").prop("value"), info: $("#nuevoInfo").prop("value"), id: genGUID(), fields: [] };
+      $("#nuevoTitulo").prop("value", "");  
+      $("#nuevoInfo").prop("value", "");
+      if (nuevo.title == "") return;
+      
+      forms.push(nuevo);
+    },
+    borrarForm: function (e, i) {
+      if (confirm("Desea borrar este formulario?"))
+        forms.splice(i,1);
+    },
+    editarForm: function (e,i) {
+      manejarFormulario(i);
+    }
+  });
+  
+  
+  var formRactive = null;
+
+  function manejarFormulario(index) {
+    if (formRactive != null) {
+      if (formRactive.fieldEditor) {
+        alert("Guarde el campo para continuar.");
+        return;
+      } else {
+        formRactive.teardown();
+      }
+    }
+    
+    // just in case, it was left with the hidden class.
+    $("#form").removeClass("hidden");
+      
+    formRactive = FormEditor.initialize("form", "field", forms[index]);
+    // Hide the form editor before editing a field.
+    formRactive.beforeEditField = function () { 
+      $("#form").addClass("hidden");
+    };
+    formRactive.doneEditField = function (event) {
+      if (event == false) {
+        alert("Ingrese la información del campo para continuar.");
+        return;
+      }
+      formRactive.fieldEditor.teardown();
+      delete formRactive.fieldEditor;
+      $("#form").removeClass("hidden");
+    }
+  }
+  
+  $("#herramienta_escritores_form").submit(function() {
+      if (formRactive.fieldEditor) {
+        alert("Guarde el campo para continuar.");
+        return false;
+      }
+      $("#jsondata").prop("value", JSON.stringify(forms));
+  });
+    
+  // avoid submit on enter
+  $('form').bind("keyup keypress", function(e) {
+    var code = e.keyCode || e.which; 
+    if (code  == 13) {               
+      e.preventDefault();
+      return false;
+    }
+  });
+
+  
+  manejarFormulario(0);
+  </script>
+  
+  </form>
+  </div>
+  
+  </body>
+</html>
