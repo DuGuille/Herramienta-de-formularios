@@ -16,4 +16,3 @@ Los tipos de campos ya incluidos son:
 Este es el demo del editor:
 
 Este es el demo del llenador de los formularios: 
-
