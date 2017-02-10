@@ -81,8 +81,7 @@ body { font-family:sans-serif;}
       <script id="manejarForms" type="ractive/text"> 
         {{#.:i}}
           <div class="formulario"> {{title}} - {{fields.length}} campos. <input  type="button" on-click="editarForm:{{i}}" value="Editar" /> <input type="button" on-click="borrarForm:{{i}}" value="Borrar" /> 
-          <br />
-          Link a este formulario: <a target="_blank" href="http://hostname.com/formularios/index.php?key={{id}}">http://hostname.com/formularios/index.php?key={{id}}</a>
+          
           </div>
         {{/.}}
         <div id="nuevoForm" class="editar_informacion">
